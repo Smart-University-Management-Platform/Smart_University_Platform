@@ -514,4 +514,4 @@ This project is for educational purposes as part of the Software Analysis and De
 
 ---
 
-*Last Updated: December 2024*
+*Last Updated: December 2025*
