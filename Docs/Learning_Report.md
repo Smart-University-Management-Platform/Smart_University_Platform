@@ -26,13 +26,13 @@ Over the course of 4 weeks, our team of 8 developers built a production-style mi
 
 ### Key Achievements
 
-| Category | Details |
-|----------|---------|
-| **Services Built** | 8 microservices + API Gateway |
-| **Design Patterns** | 7 patterns implemented |
-| **Technologies** | Spring Boot, React, PostgreSQL, RabbitMQ, Redis |
-| **Architecture** | Event-driven, multi-tenant, fault-tolerant |
-| **Testing** | 50+ integration tests, frontend unit tests |
+| Category            | Details                                         |
+| ------------------- | ----------------------------------------------- |
+| **Services Built**  | 8 microservices + API Gateway                   |
+| **Design Patterns** | 7 patterns implemented                          |
+| **Technologies**    | Spring Boot, React, PostgreSQL, RabbitMQ, Redis |
+| **Architecture**    | Event-driven, multi-tenant, fault-tolerant      |
+| **Testing**         | 50+ integration tests, frontend unit tests      |
 
 ### Learning Highlights
 
@@ -47,44 +47,48 @@ Over the course of 4 weeks, our team of 8 developers built a production-style mi
 ## Team Learning Overview
 
 ### Team Alpha: Gateway & Authentication
+
 **Members:** @Navidtor, @amirrezamaqsoudi
 
-| Topic | Before Project | After Project |
-|-------|---------------|---------------|
-| API Gateway | Never used | Configured routing, filters, RBAC |
-| JWT | Basic understanding | Implemented generation, validation, claims |
-| Spring WebFlux | Unknown | Comfortable with reactive patterns |
-| Security | Theoretical | Hands-on with BCrypt, rate limiting, lockout |
+| Topic          | Before Project      | After Project                                |
+| -------------- | ------------------- | -------------------------------------------- |
+| API Gateway    | Never used          | Configured routing, filters, RBAC            |
+| JWT            | Basic understanding | Implemented generation, validation, claims   |
+| Spring WebFlux | Unknown             | Comfortable with reactive patterns           |
+| Security       | Theoretical         | Hands-on with BCrypt, rate limiting, lockout |
 
 ### Team Beta: Booking & Resources
+
 **Members:** @GhazaleESK, @tinabaouj
 
-| Topic | Before Project | After Project |
-|-------|---------------|---------------|
-| Database Locking | Unknown | Implemented pessimistic locking |
-| JPA Queries | Basic CRUD | Complex queries with locking |
-| React Hooks | Basic useState | useCallback, useMemo, useEffect mastery |
-| Calendar UI | Never built | Complete weekly calendar component |
+| Topic            | Before Project | After Project                           |
+| ---------------- | -------------- | --------------------------------------- |
+| Database Locking | Unknown        | Implemented pessimistic locking         |
+| JPA Queries      | Basic CRUD     | Complex queries with locking            |
+| React Hooks      | Basic useState | useCallback, useMemo, useEffect mastery |
+| Calendar UI      | Never built    | Complete weekly calendar component      |
 
 ### Team Gamma: Marketplace & Payments
+
 **Members:** @xxheka, @sophiedlk
 
-| Topic | Before Project | After Project |
-|-------|---------------|---------------|
-| Saga Pattern | Never heard of | Implemented with compensation |
-| Strategy Pattern | Textbook knowledge | Real-world implementation |
-| RabbitMQ | Never used | Event publishing and routing |
-| Distributed Transactions | Unknown | Deep understanding of challenges |
+| Topic                    | Before Project     | After Project                    |
+| ------------------------ | ------------------ | -------------------------------- |
+| Saga Pattern             | Never heard of     | Implemented with compensation    |
+| Strategy Pattern         | Textbook knowledge | Real-world implementation        |
+| RabbitMQ                 | Never used         | Event publishing and routing     |
+| Distributed Transactions | Unknown            | Deep understanding of challenges |
 
 ### Team Delta: Exams & Notifications
+
 **Members:** @Mariahdlk1989, @xanahid
 
-| Topic | Before Project | After Project |
-|-------|---------------|---------------|
-| State Pattern | Textbook knowledge | Production implementation |
-| Circuit Breaker | Unknown | Resilience4j integration |
-| Message Queues | Basic concept | RabbitMQ listeners, dead letters |
-| Fault Tolerance | Theoretical | Practical fallback strategies |
+| Topic           | Before Project     | After Project                    |
+| --------------- | ------------------ | -------------------------------- |
+| State Pattern   | Textbook knowledge | Production implementation        |
+| Circuit Breaker | Unknown            | Resilience4j integration         |
+| Message Queues  | Basic concept      | RabbitMQ listeners, dead letters |
+| Fault Tolerance | Theoretical        | Practical fallback strategies    |
 
 ---
 
@@ -92,10 +96,10 @@ Over the course of 4 weeks, our team of 8 developers built a production-style mi
 
 ### 1. Saga Pattern - Distributed Transactions
 
-**Implemented By:** @xxheka (Team Gamma)
-
 #### The Problem We Solved
+
 In a monolithic application, buying a product is simple:
+
 ```
 BEGIN TRANSACTION
   1. Create order
@@ -133,7 +137,8 @@ In microservices, Order, Payment, and Stock might be in different services with 
 #### Key Learnings
 
 1. **Compensation is Essential**
-   > "Every forward step needs an undo step. If payment succeeds but stock fails, we must cancel the payment." - @xxheka
+
+   > "Every forward step needs an undo step. If payment succeeds but stock fails, we must cancel the payment."
 
 2. **State Visibility Matters**
    - Orders have explicit states: `PENDING`, `CONFIRMED`, `CANCELED`
@@ -156,10 +161,10 @@ In microservices, Order, Payment, and Stock might be in different services with 
 
 ### 2. Circuit Breaker Pattern - Fault Tolerance
 
-**Implemented By:** @xanahid (Team Delta)
-
 #### The Problem We Solved
+
 When Exam Service calls Notification Service and it's down:
+
 - Without Circuit Breaker: Exam start hangs, timeouts stack up, whole system degrades
 - With Circuit Breaker: Fast failure, fallback behavior, system stays responsive
 
@@ -200,16 +205,17 @@ resilience4j:
   circuitbreaker:
     instances:
       notificationCb:
-        slidingWindowSize: 5          # Look at last 5 calls
-        failureRateThreshold: 50      # Open if 50% fail
-        waitDurationInOpenState: 30s  # Stay open for 30s
-        permittedNumberOfCallsInHalfOpenState: 1  # 1 test call
+        slidingWindowSize: 5 # Look at last 5 calls
+        failureRateThreshold: 50 # Open if 50% fail
+        waitDurationInOpenState: 30s # Stay open for 30s
+        permittedNumberOfCallsInHalfOpenState: 1 # 1 test call
 ```
 
 #### Key Learnings
 
 1. **Fail Fast is Better Than Hang**
-   > "A slow failure is worse than a fast failure. Users would rather see 'Notification unavailable' than wait forever." - @xanahid
+
+   > "A slow failure is worse than a fast failure. Users would rather see 'Notification unavailable' than wait forever."
 
 2. **Fallback Design is Critical**
    - What do we do when the circuit is open?
@@ -223,16 +229,17 @@ resilience4j:
 
 ### 3. State Pattern - Lifecycle Management
 
-**Implemented By:** @Mariahdlk1989 (Team Delta)
-
 #### The Problem We Solved
+
 Exam behavior changes based on state:
+
 - DRAFT: Can edit, can't start
 - SCHEDULED: Can start, can't submit
 - LIVE: Can submit, can't edit
 - CLOSED: Read-only
 
 Without State Pattern:
+
 ```java
 // This gets messy fast!
 if (exam.getStatus() == DRAFT) {
@@ -289,7 +296,8 @@ public void startExam(UUID examId) {
 #### Key Learnings
 
 1. **Encapsulation Wins**
-   > "Each state class is like a small expert that knows exactly what's allowed. The service layer doesn't need to think about it." - @Mariahdlk1989
+
+   > "Each state class is like a small expert that knows exactly what's allowed. The service layer doesn't need to think about it."
 
 2. **Open/Closed Principle**
    - Adding GRADED state? Create `GradedExamState`, add to factory, done.
@@ -303,10 +311,10 @@ public void startExam(UUID examId) {
 
 ### 4. Strategy Pattern - Payment Abstraction
 
-**Implemented By:** @sophiedlk (Team Gamma)
-
 #### The Problem We Solved
+
 Today we have mock payments. Tomorrow we might add:
+
 - Stripe for credit cards
 - PayPal for digital wallets
 - Bank transfer for large amounts
@@ -326,7 +334,7 @@ public interface PaymentStrategy {
 public class MockPaymentStrategy implements PaymentStrategy {
     @Override
     public String getProviderName() { return "MOCK"; }
-    
+
     @Override
     public Payment authorize(...) {
         // Simulate successful payment
@@ -340,7 +348,8 @@ public class MockPaymentStrategy implements PaymentStrategy {
 #### Key Learnings
 
 1. **Interface-Based Design**
-   > "Programming to interfaces, not implementations. The service doesn't know or care which payment provider is being used." - @sophiedlk
+
+   > "Programming to interfaces, not implementations. The service doesn't know or care which payment provider is being used."
 
 2. **Spring's DI Makes It Easy**
    - Inject `List<PaymentStrategy>` to get all implementations
@@ -354,10 +363,10 @@ public class MockPaymentStrategy implements PaymentStrategy {
 
 ### 5. Observer Pattern - Event-Driven Architecture
 
-**Implemented By:** @xxheka, @xanahid (Teams Gamma & Delta)
-
 #### The Problem We Solved
+
 When an order is confirmed:
+
 - Notification service should send email
 - Analytics might track it
 - Inventory might update reports
@@ -396,7 +405,8 @@ public record OrderConfirmedEvent(
 #### Key Learnings
 
 1. **Loose Coupling is Powerful**
-   > "Marketplace doesn't know Notification exists. We could add 10 more subscribers without touching Marketplace code." - @xxheka
+
+   > "Marketplace doesn't know Notification exists. We could add 10 more subscribers without touching Marketplace code."
 
 2. **Event Granularity**
    - Include enough data so subscribers don't need to call back
@@ -411,8 +421,6 @@ public record OrderConfirmedEvent(
 ## Architecture Concepts
 
 ### Multi-Tenancy Implementation
-
-**Learning Lead:** @GhazaleESK (Team Beta)
 
 #### Approach: Row-Level Isolation
 
@@ -448,6 +456,7 @@ CREATE INDEX idx_resources_tenant ON resources(tenant_id);
    - Gateway is the single source of truth
 
 2. **Repository Pattern Enforces It**
+
    ```java
    // Every method includes tenantId
    List<Resource> findByTenantId(String tenantId);
@@ -465,8 +474,6 @@ CREATE INDEX idx_resources_tenant ON resources(tenant_id);
 
 ### Pessimistic Locking for Data Integrity
 
-**Learning Lead:** @GhazaleESK (Team Beta)
-
 #### The Race Condition Problem
 
 ```
@@ -481,7 +488,7 @@ User B: Book the room → Success (OVERBOOKING!)
 ```java
 @Lock(LockModeType.PESSIMISTIC_WRITE)
 @Query("SELECT r FROM Resource r WHERE r.id = :id AND r.tenantId = :tenantId")
-Optional<Resource> findByIdAndTenantIdForUpdate(@Param("id") UUID id, 
+Optional<Resource> findByIdAndTenantIdForUpdate(@Param("id") UUID id,
                                                  @Param("tenantId") String tenantId);
 ```
 
@@ -499,7 +506,8 @@ User B: Gets lock, reads UPDATED data → Sees room is booked
 #### Key Learnings
 
 1. **Correctness Over Performance**
-   > "For booking systems, we'd rather be slower than allow double-booking. Correctness is non-negotiable." - @GhazaleESK
+
+   > "For booking systems, we'd rather be slower than allow double-booking. Correctness is non-negotiable."
 
 2. **Transaction Boundaries**
    - Lock only held within `@Transactional` method
@@ -515,8 +523,6 @@ User B: Gets lock, reads UPDATED data → Sees room is booked
 
 ### JWT Authentication Flow
 
-**Learning Lead:** @amirrezamaqsoudi (Team Alpha)
-
 #### Token Structure
 
 ```
@@ -527,14 +533,14 @@ SflKxwRJSMeKKF2QT4fw.    ← Signature (verification)
 
 #### Claims We Include
 
-| Claim | Purpose | Example |
-|-------|---------|---------|
-| sub | User ID (subject) | "550e8400-e29b-41d4-a716-446655440000" |
-| role | Authorization | "STUDENT" |
-| tenantId | Multi-tenant isolation | "engineering" |
-| username | Display name | "alice" |
-| iat | Issued at | 1703980800 |
-| exp | Expiration | 1703984400 |
+| Claim    | Purpose                | Example                                |
+| -------- | ---------------------- | -------------------------------------- |
+| sub      | User ID (subject)      | "550e8400-e29b-41d4-a716-446655440000" |
+| role     | Authorization          | "STUDENT"                              |
+| tenantId | Multi-tenant isolation | "engineering"                          |
+| username | Display name           | "alice"                                |
+| iat      | Issued at              | 1703980800                             |
+| exp      | Expiration             | 1703984400                             |
 
 #### Security Measures
 
@@ -546,7 +552,8 @@ SflKxwRJSMeKKF2QT4fw.    ← Signature (verification)
 #### Key Learnings
 
 1. **Stateless Benefits**
-   > "No session storage means any server can validate any token. Perfect for scaling." - @amirrezamaqsoudi
+
+   > "No session storage means any server can validate any token. Perfect for scaling."
 
 2. **Don't Over-Share**
    - JWT payload is base64, not encrypted
@@ -559,8 +566,6 @@ SflKxwRJSMeKKF2QT4fw.    ← Signature (verification)
 ---
 
 ### Rate Limiting Implementation
-
-**Learning Lead:** @Navidtor (Team Alpha)
 
 #### Configuration
 
@@ -597,27 +602,26 @@ SflKxwRJSMeKKF2QT4fw.    ← Signature (verification)
 
 ### React Patterns Learned
 
-**Learning Lead:** @tinabaouj (Team Beta)
-
 #### Hooks Mastery
 
-| Hook | What We Learned | Use Case |
-|------|-----------------|----------|
-| useState | Basic state management | Form inputs, toggles |
-| useEffect | Side effects with dependencies | API calls, subscriptions |
-| useCallback | Memoize functions | Preventing unnecessary re-renders |
-| useMemo | Memoize values | Expensive calculations |
-| useContext | Global state | Auth state, theme |
+| Hook        | What We Learned                | Use Case                          |
+| ----------- | ------------------------------ | --------------------------------- |
+| useState    | Basic state management         | Form inputs, toggles              |
+| useEffect   | Side effects with dependencies | API calls, subscriptions          |
+| useCallback | Memoize functions              | Preventing unnecessary re-renders |
+| useMemo     | Memoize values                 | Expensive calculations            |
+| useContext  | Global state                   | Auth state, theme                 |
 
 #### Common Pitfalls Avoided
 
 1. **Stale Closures**
+
    ```javascript
    // Problem: fetchData captures old state
    useEffect(() => {
      fetchData(); // Uses stale values
    }, []); // Missing dependencies!
-   
+
    // Solution: Include dependencies
    useEffect(() => {
      fetchData();
@@ -625,29 +629,25 @@ SflKxwRJSMeKKF2QT4fw.    ← Signature (verification)
    ```
 
 2. **Infinite Loops**
+
    ```javascript
    // Problem: Creates new object every render
    useEffect(() => {
      fetchData(options); // options is new object each time
    }, [options]); // Triggers every render!
-   
+
    // Solution: Memoize the object
    const options = useMemo(() => ({ page, limit }), [page, limit]);
    ```
-
-#### Key Learnings
-
-> "React's dependency arrays are about correctness, not performance. Get them right first, optimize later." - @tinabaouj
 
 ---
 
 ### Error Handling Strategy
 
-**Learning Lead:** @tinabaouj (Team Beta)
-
 #### Three Layers of Protection
 
 1. **ErrorBoundary**: Catches render errors
+
    ```jsx
    <ErrorBoundary fallback={<ErrorPage />}>
      <App />
@@ -655,16 +655,17 @@ SflKxwRJSMeKKF2QT4fw.    ← Signature (verification)
    ```
 
 2. **API Interceptor**: Handles HTTP errors globally
+
    ```javascript
    api.interceptors.response.use(
-     response => response,
-     error => {
+     (response) => response,
+     (error) => {
        if (error.response?.status === 401) {
          logout();
-         redirect('/login');
+         redirect("/login");
        }
        return Promise.reject(error);
-     }
+     },
    );
    ```
 
@@ -672,10 +673,10 @@ SflKxwRJSMeKKF2QT4fw.    ← Signature (verification)
    ```javascript
    try {
      await bookRoom(roomId, time);
-     showToast('Booking successful!');
+     showToast("Booking successful!");
    } catch (error) {
      if (error.response?.status === 409) {
-       showToast('Room already booked');
+       showToast("Room already booked");
      }
    }
    ```
@@ -685,8 +686,6 @@ SflKxwRJSMeKKF2QT4fw.    ← Signature (verification)
 ## DevOps & Infrastructure
 
 ### Docker Compose Architecture
-
-**Learning Lead:** @Navidtor, @xxheka (Teams Alpha & Gamma)
 
 #### Service Orchestration
 
@@ -752,7 +751,8 @@ auth-service:
 
 **Root Cause:** React's stale closure captured old state in useEffect.
 
-**Solution:** 
+**Solution:**
+
 1. Used useCallback for fetch function
 2. Added proper dependency array
 3. Called refresh after successful booking
@@ -789,50 +789,20 @@ auth-service:
 
 **Lesson:** Browser security is strict. CORS must be explicitly configured.
 
----
-
-## Team Reflections
-
-### @Navidtor (Team Alpha)
-> "Before this project, I thought microservices were just 'smaller applications.' Now I understand it's a completely different paradigm - you're building a distributed system with all its complexity."
-
-### @amirrezamaqsoudi (Team Alpha)
-> "Security isn't something you add at the end. It needs to be designed from the start. JWT, rate limiting, lockout - they all work together."
-
-### @GhazaleESK (Team Beta)
-> "Database locking was abstract until I saw a race condition break our booking system. Now I understand why it's essential."
-
-### @tinabaouj (Team Beta)
-> "React hooks seemed simple until I hit stale closures and infinite loops. Understanding the render cycle was my biggest learning."
-
-### @xxheka (Team Gamma)
-> "The Saga pattern taught me that distributed systems are fundamentally different. You can't just 'rollback' - you have to compensate."
-
-### @sophiedlk (Team Gamma)
-> "Design patterns aren't academic exercises. Strategy pattern solved a real problem and will make adding payment providers trivial."
-
-### @Mariahdlk1989 (Team Delta)
-> "State pattern eliminated so many bugs. Instead of checking 'if status == X' everywhere, each state knows its own rules."
-
-### @xanahid (Team Delta)
-> "Circuit Breaker was my favorite pattern. It's amazing how a simple state machine can prevent cascading failures."
-
----
-
 ## Skills Acquired
 
 ### Technical Skills Matrix
 
-| Skill | Team Members | Proficiency |
-|-------|--------------|-------------|
-| Spring Boot | All | ⭐⭐⭐⭐ |
-| Spring Cloud Gateway | Alpha | ⭐⭐⭐⭐ |
-| JPA/Hibernate | Alpha, Beta, Gamma | ⭐⭐⭐ |
-| RabbitMQ | Gamma, Delta | ⭐⭐⭐ |
-| React/TypeScript | Beta | ⭐⭐⭐⭐ |
-| Docker/Compose | All | ⭐⭐⭐ |
-| PostgreSQL | All | ⭐⭐⭐ |
-| Resilience4j | Delta | ⭐⭐⭐⭐ |
+| Skill                | Team Members       | Proficiency |
+| -------------------- | ------------------ | ----------- |
+| Spring Boot          | All                | ⭐⭐⭐⭐    |
+| Spring Cloud Gateway | Alpha              | ⭐⭐⭐⭐    |
+| JPA/Hibernate        | Alpha, Beta, Gamma | ⭐⭐⭐      |
+| RabbitMQ             | Gamma, Delta       | ⭐⭐⭐      |
+| React/TypeScript     | Beta               | ⭐⭐⭐⭐    |
+| Docker/Compose       | All                | ⭐⭐⭐      |
+| PostgreSQL           | All                | ⭐⭐⭐      |
+| Resilience4j         | Delta              | ⭐⭐⭐⭐    |
 
 ### Soft Skills Developed
 
@@ -885,13 +855,13 @@ auth-service:
 
 ### Technology Recommendations
 
-| Use Case | Recommendation | Reason |
-|----------|---------------|--------|
-| API Gateway | Spring Cloud Gateway | Native Spring integration |
-| Message Broker | RabbitMQ | Easy to use, reliable |
-| Caching | Redis | Fast, supports distributed state |
-| Resilience | Resilience4j | Excellent Spring Boot integration |
-| Frontend | React + TypeScript | Type safety, large ecosystem |
+| Use Case       | Recommendation       | Reason                            |
+| -------------- | -------------------- | --------------------------------- |
+| API Gateway    | Spring Cloud Gateway | Native Spring integration         |
+| Message Broker | RabbitMQ             | Easy to use, reliable             |
+| Caching        | Redis                | Fast, supports distributed state  |
+| Resilience     | Resilience4j         | Excellent Spring Boot integration |
+| Frontend       | React + TypeScript   | Type safety, large ecosystem      |
 
 ---
 
@@ -926,22 +896,25 @@ This project transformed our understanding of distributed systems. We moved from
 ## Appendix: Learning Resources Used
 
 ### Books & Documentation
+
 - Spring Boot Reference Documentation
 - Microservices Patterns by Chris Richardson
 - Designing Data-Intensive Applications by Martin Kleppmann
 
 ### Online Courses
+
 - Spring Cloud Gateway tutorials
 - React Hooks deep dives
 - RabbitMQ fundamentals
 
 ### Community Resources
+
 - Stack Overflow for debugging
 - GitHub issues for library-specific problems
 - Discord communities for real-time help
 
 ---
 
-*Report compiled by all team members*  
-*Project Duration: 1 Month (4 Weeks)*  
-*Last Updated: December 2024*
+_Report compiled by all team members_  
+_Project Duration: 1 Month (4 Weeks)_  
+_Last Updated: December 2025_
